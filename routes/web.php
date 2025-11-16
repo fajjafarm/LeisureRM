@@ -6,8 +6,8 @@ use App\Http\Controllers\SuperAdminController;
 use App\Http\Controllers\PoolTestController;
 use Illuminate\Support\Facades\Auth;
 
-Auth::routes();
-// etc.
+Auth::routes(); 
+// etc
 
 Route::middleware(['auth', 'role:SuperAdmin'])->prefix('superadmin')->group(function () {
     Route::get('/dashboard', [SuperAdminController::class, 'dashboard']);
