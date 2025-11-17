@@ -1,6 +1,6 @@
 ﻿{
     "name": "adafarmio/leisure-suite",
-    "description": "Commercial UK H&S compliant leisure & facilities management suite on Laravel 12 + Livewire 3",
+    "description": "Commercial UK H&S compliant leisure & facilities management suite",
     "type": "project",
     "require": {
         "php": "^8.2",
@@ -43,10 +43,7 @@
     "config": {
         "optimize-autoloader": true,
         "preferred-install": "dist",
-        "sort-packages": true,
-        "allow-plugins": {
-            "pestphp/pest-plugin": true
-        }
+        "sort-packages": true
     },
     "minimum-stability": "stable",
     "prefer-stable": true
