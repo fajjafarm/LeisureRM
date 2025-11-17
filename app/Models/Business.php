@@ -1,13 +1,1 @@
-﻿<?php
-
-namespace App\Models;
-
-use Illuminate\Database\Eloquent\Model;
-
-class Business extends Model
-{
-    protected $fillable = ['name', 'description'];
-
-    public function facilities() { return $this->hasMany(Facility::class); }
-    public function users() { return $this->belongsToMany(User::class); }
-}
+﻿<?php namespace App\Models; use Illuminate\Database\Eloquent\Model; class Business extends Model { protected $fillable=["name","description","phone","email","address"]; public function facilities(){return $this->hasMany(Facility::class);} public function users(){return $this->belongsToMany(User::class);} }
