@@ -1,5 +1,5 @@
 # 11-FinalFixes.ps1
-# # # Set-Location leisure-suite  #  DISABLED  we are already in the right folder  #  DISABLED  we are already in the right folder  #  DISABLED  we are already in the right folder
+# # Set-Location leisure-suite  #  DISABLED  we are already in the right folder  #  DISABLED  we are already in the right folder
 
 # Publish Spatie Permission migrations (critical!)
 php artisan vendor:publish --provider="Spatie\Permission\PermissionServiceProvider" --tag="migrations" --force

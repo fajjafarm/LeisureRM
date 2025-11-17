@@ -1,5 +1,5 @@
 # 03-Migrations2.ps1
-# # # Set-Location leisure-suite  #  DISABLED  we are already in the right folder  #  DISABLED  we are already in the right folder  #  DISABLED  we are already in the right folder
+# # Set-Location leisure-suite  #  DISABLED  we are already in the right folder  #  DISABLED  we are already in the right folder
 
 # 2025_11_17_000005_create_tasks_table.php
 @"

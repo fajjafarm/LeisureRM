@@ -1,5 +1,5 @@
 # 05-LayoutSidebar.ps1
-# # # Set-Location leisure-suite  #  DISABLED  we are already in the right folder  #  DISABLED  we are already in the right folder  #  DISABLED  we are already in the right folder
+# # Set-Location leisure-suite  #  DISABLED  we are already in the right folder  #  DISABLED  we are already in the right folder
 
 # resources/views/layouts/app.blade.php (Beautiful, mobile-first, dark-mode ready)
 @'

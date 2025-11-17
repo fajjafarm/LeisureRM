@@ -1,5 +1,5 @@
 # 06-TasksPoolTesting.ps1
-# # # Set-Location leisure-suite  #  DISABLED  we are already in the right folder  #  DISABLED  we are already in the right folder  #  DISABLED  we are already in the right folder
+# # Set-Location leisure-suite  #  DISABLED  we are already in the right folder  #  DISABLED  we are already in the right folder
 
 # app/Http/Livewire/TaskManager.php
 @'

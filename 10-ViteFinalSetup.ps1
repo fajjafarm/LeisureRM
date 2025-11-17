@@ -1,5 +1,5 @@
 # 10-ViteFinalSetup.ps1
-# # # Set-Location leisure-suite  #  DISABLED  we are already in the right folder  #  DISABLED  we are already in the right folder  #  DISABLED  we are already in the right folder
+# # Set-Location leisure-suite  #  DISABLED  we are already in the right folder  #  DISABLED  we are already in the right folder
 
 # vite.config.js (Laravel 12 + Livewire 3 ready)
 @'

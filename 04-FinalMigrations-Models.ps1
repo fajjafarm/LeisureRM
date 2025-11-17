@@ -1,5 +1,5 @@
 # 04-FinalMigrations-Models.ps1
-# # # Set-Location leisure-suite  #  DISABLED  we are already in the right folder  #  DISABLED  we are already in the right folder  #  DISABLED  we are already in the right folder
+# # Set-Location leisure-suite  #  DISABLED  we are already in the right folder  #  DISABLED  we are already in the right folder
 
 # 2025_11_17_000010_create_water_meter_readings_table.php
 @"

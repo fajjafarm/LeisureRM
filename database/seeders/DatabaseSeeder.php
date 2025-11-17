@@ -1,9 +1,4 @@
-# 09-CommercialSeeder.ps1
-# # Set-Location leisure-suite  #  DISABLED  we are already in the right folder  #  DISABLED  we are already in the right folder
-
-# database/seeders/DatabaseSeeder.php – FULL UK-compliant demo
-@'
-<?php
+﻿<?php
 
 namespace Database\Seeders;
 
@@ -82,16 +77,12 @@ class DatabaseSeeder extends Seeder
             ['name' => 'First Aid at Work', 'issuing_body' => 'HSE', 'validity_months' => 36],
         ]);
 
-        // 7. Daily Overview (so the message board isn’t empty)
+        // 7. Daily Overview (so the message board isnâ€™t empty)
         DailyOverview::updateOrCreate(
             ['facility_id' => $facility->id, 'overview_date' => today()],
             ['expected_guests' => 450, 'staff_on_shift' => [['name' => 'Sarah Johnson', 'start' => '06:00', 'end' => '14:00']]]
         );
 
-        \Log::info('Sunshine Leisure Centre – FULL commercial UK H&S demo seeded!');
+        \Log::info('Sunshine Leisure Centre â€“ FULL commercial UK H&S demo seeded!');
     }
 }
-'@ | Out-File -Encoding utf8 database/seeders/DatabaseSeeder.php
-
-Write-Host "09 - FULL commercial UK H&S demo seeder created!" -ForegroundColor Green
-Write-Host "    Sunshine Leisure Centre with real staff, low-stock acid, overdue sauna task, etc." -ForegroundColor Cyan

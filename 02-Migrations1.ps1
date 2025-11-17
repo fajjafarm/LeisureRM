@@ -1,5 +1,5 @@
 # 02-Migrations1.ps1
-# # # Set-Location leisure-suite  #  DISABLED  we are already in the right folder  #  DISABLED  we are already in the right folder  #  DISABLED  we are already in the right folder
+# # Set-Location leisure-suite  #  DISABLED  we are already in the right folder  #  DISABLED  we are already in the right folder
 
 $timestamp = Get-Date -Format "yyyy_MM_dd_HHmmss"
 
