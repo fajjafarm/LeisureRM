@@ -61,3 +61,24 @@ class User extends Authenticatable
         return $priorities[$this->rank] ?? 0;
     }
 }
+
+use Spatie\Permission\Traits\HasRoles;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+
+class User extends Authenticatable
+{
+    use HasRoles;
+
+    protected $fillable = ['name', 'email', 'password', 'rank'];
+
+    protected $casts = [
+        'rank' => \App\Enums\UserRank::class,
+    ];
+
+    public function businesses() { return $this->belongsToMany(Business::class); }
+    public function facilities() { return $this->belongsToMany(Facility::class); }
+    public function poolTests() { return $this->hasMany(PoolTest::class); }
+    public function healthChecks() { return $this->hasMany(HealthCheck::class); }
+    public function tasksAssigned() { return $this->hasMany(Task::class, 'assigned_by'); }
+    public function tasksReceived() { return $this->hasMany(Task::class, 'assigned_to'); }
+}
