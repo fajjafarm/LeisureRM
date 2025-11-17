@@ -1,1 +1,0 @@
-﻿<?php namespace App\Models; use Illuminate\Database\Eloquent\Model; class CoshhRecord extends Model { protected $fillable=["chemical_name","location","risk_assessment","sds_file","quantity","user_id"]; }

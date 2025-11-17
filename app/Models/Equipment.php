@@ -1,1 +1,0 @@
-﻿<?php namespace App\Models; use Illuminate\Database\Eloquent\Model; class Equipment extends Model { protected $fillable=["sub_facility_id","name","type","install_date","maintenance_interval_days","last_serviced"]; }

@@ -1,1 +1,0 @@
-﻿<?php namespace App\Models; use Illuminate\Database\Eloquent\Model; class NopEap extends Model { protected $fillable=["title","type","facility_id","sub_facility_id","content","youtube_url","pdf_file"]; }

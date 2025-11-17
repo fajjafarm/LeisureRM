@@ -1,1 +1,0 @@
-﻿<?php namespace App\Models; use Illuminate\Database\Eloquent\Model; class HealthCheck extends Model { protected $fillable=["sub_facility_id","user_id","status","notes"]; public function subFacility(){return $this->belongsTo(SubFacility::class);} public function user(){return $this->belongsTo(User::class);} }
