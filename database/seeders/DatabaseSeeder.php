@@ -18,43 +18,35 @@ class DatabaseSeeder extends Seeder
         $super = User::firstOrCreate(
             ['email' => 'admin@leisuremanager.test'],
             [
-                'name' => 'Super Admin',
+                'name'     => 'Super Admin',
                 'password' => bcrypt('password')
             ]
         );
+
         Role::findOrCreate('super-admin');
         $super->assignRole('super-admin');
 
         // 2. Demo Business – Sunshine Leisure Centre
         $business = Business::create([
-            'name' => 'Sunshine Leisure Centre',
-            'slug' => 'sunshine',
+            'name'          => 'Sunshine Leisure Centre',
+            'slug'          => 'sunshine',
             'contact_email' => 'info@sunshineleisure.co.uk',
-            'phone' => '01483 123456',
-            'address' => '1 High Street, Guildford, Surrey, GU1 3AA'
+            'phone'         => '01483 123456',
+            'address'       => '1 High Street, Guildford, Surrey, GU1 3AA'
         ]);
 
         // 3. Main Facility
         $facility = $business->facilities()->create([
-            'name' => 'Sunshine Main Site',
-            'slug' => 'main',
-            'address' => '1 High Street, Guildford, Surrey',
+            'name'     => 'Sunshine Main Site',
+            'slug'     => 'main',
+            'address'  => '1 High Street, Guildford, Surrey',
             'postcode' => 'GU1 3AA'
         ]);
 
         // 4. Staff Users
-        $manager = User::firstOrCreate(
-            ['email' => 'manager@sunshine.test'],
-            ['name' => 'Sarah Johnson', 'password' => bcrypt('password')]
-        );
-        $lifeguard = User::firstOrCreate(
-            ['email' => 'lifeguard@sunshine.test'],
-            ['name' => 'Tom Smith', 'password' => bcrypt('password')]
-        );
-        $reception = User::firstOrCreate(
-            ['email' => 'reception@sunshine.test'],
-            ['name' => 'Emma Brown', 'password' => bcrypt('password')]
-        );
+        $manager    = User::firstOrCreate(['email' => 'manager@sunshine.test'],    ['name' => 'Sarah Johnson', 'password' => bcrypt('password')]);
+        $lifeguard  = User::firstOrCreate(['email' => 'lifeguard@sunshine.test'],  ['name' => 'Tom Smith',     'password' => bcrypt('password')]);
+        $reception  = User::firstOrCreate(['email' => 'reception@sunshine.test'],  ['name' => 'Emma Brown',    'password' => bcrypt('password')]);
 
         // Profiles & current facility
         foreach ([$manager, $lifeguard, $reception] as $user) {
@@ -73,28 +65,28 @@ class DatabaseSeeder extends Seeder
         $lifeguard->assignRole('lifeguard');
         $reception->assignRole('reception');
 
-        // Give manager full permissions
+        // Give manager full permissions within their business
         $manager->givePermissionTo(Permission::all());
 
         // 6. Sub-Facilities (real UK leisure setup)
         $facility->subFacilities()->createMany([
-            ['name' => '25m Competition Pool',     'type' => 'pool',        'check_interval_minutes' => 60],
-            ['name' => 'Learner Pool',             'type' => 'baby_pool',   'check_interval_minutes' => 60],
-            ['name' => 'Sauna',                    'type' => 'sauna',       'check_interval_minutes' => 20, 'is_thermal_suite' => true],
-            ['name' => 'Steam Room',               'type' => 'steam_room',  'check_interval_minutes' => 20, 'is_thermal_suite' => true],
-            ['name' => 'Experience Shower',        'type' => 'experience_shower', 'check_interval_minutes' => 30, 'is_thermal_suite' => true],
-            ['name' => 'Plunge Pool',              'type' => 'plunge_pool', 'check_interval_minutes' => 30],
-            ['name' => 'Hot Tub',                  'type' => 'hot_tub',     'check_interval_minutes' => 30],
-            ['name' => 'Soft Play Zone',           'type' => 'soft_play',   'check_interval_minutes' => 120],
-            ['name' => 'Gym Floor',                'type' => 'gym',         'check_interval_minutes' => 240],
+            ['name' => '25m Competition Pool',      'type' => 'pool',          'check_interval_minutes' => 60],
+            ['name' => 'Learner Pool',              'type' => 'baby_pool',     'check_interval_minutes' => 60],
+            ['name' => 'Sauna',                     'type' => 'sauna',         'check_interval_minutes' => 20, 'is_thermal_suite' => true],
+            ['name' => 'Steam Room',                'type' => 'steam_room',    'check_interval_minutes' => 20, 'is_thermal_suite' => true],
+            ['name' => 'Experience Shower',         'type' => 'experience_shower', 'check_interval_minutes' => 30, 'is_thermal_suite' => true],
+            ['name' => 'Plunge Pool',               'type' => 'plunge_pool',   'check_interval_minutes' => 30],
+            ['name' => 'Hot Tub',                   'type' => 'hot_tub',       'check_interval_minutes' => 30],
+            ['name' => 'Soft Play Zone',            'type' => 'soft_play',     'check_interval_minutes' => 120],
+            ['name' => 'Gym Floor',                 'type' => 'gym',           'check_interval_minutes' => 240],
         ]);
 
         // 7. COSHH Chemicals (real UK pool chemicals with UN numbers)
         $business->coshhChemicals()->createMany([
-            ['name' => 'Sodium Hypochlorite 14%',   'manufacturer' => 'Brenntag', 'un_number' => '1791', 'hazard_symbols' => 'C,N', 'min_stock_level' => 50,  'current_stock_level' => 180, 'storage_location' => 'Chemical Store A'],
-            ['name' => 'Hydrochloric Acid 32%',     'manufacturer' => 'Brenntag', 'un_number' => '1789', 'hazard_symbols' => 'C',   'min_stock_level' => 25,  'current_stock_level' => 12,  'storage_location' => 'Chemical Store A'],
-            ['name' => 'Calcium Hypochlorite 65%',  'manufacturer' => 'Arch',     'un_number' => '2880', 'hazard_symbols' => 'O,Xi', 'min_stock_level' => 40,  'current_stock_level' => 90,  'storage_location' => 'Chemical Store B'],
-            ['name' => 'Sulphuric Acid 96%',        'manufacturer' => 'Brenntag', 'un_number' => '1830', 'hazard_symbols' => 'C',   'min_stock_level' => 20,  'current_stock_level' => 45,  'storage_location' => 'Chemical Store A'],
+            ['name' => 'Sodium Hypochlorite 14%',   'manufacturer' => 'Brenntag', 'un_number' => '1791', 'hazard_symbols' => 'C,N', 'min_stock_level' => 50, 'current_stock_level' => 180, 'storage_location' => 'Chemical Store A'],
+            ['name' => 'Hydrochloric Acid 32%',     'manufacturer' => 'Brenntag', 'un_number' => '1789', 'hazard_symbols' => 'C',   'min_stock_level' => 25, 'current_stock_level' => 12,  'storage_location' => 'Chemical Store A'],
+            ['name' => 'Calcium Hypochlorite 65%',  'manufacturer' => 'Arch',     'un_number' => '2880', 'hazard_symbols' => 'O,Xi', 'min_stock_level' => 40, 'current_stock_level' => 90, 'storage_location' => 'Chemical Store B'],
+            ['name' => 'Sulphuric Acid 96%',        'manufacturer' => 'Brenntag', 'un_number' => '1830', 'hazard_symbols' => 'C',   'min_stock_level' => 20, 'current_stock_level' => 45, 'storage_location' => 'Chemical Store A'],
             ['name' => 'Sodium Bisulphate (pH Reducer)', 'un_number' => null, 'min_stock_level' => 50, 'current_stock_level' => 120],
         ]);
 
