@@ -1,7 +1,5 @@
 <?php
 
-// File: app/Models/User.php
-
 namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -15,91 +13,80 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable, HasRoles;
 
+    /**
+     * The attributes that are mass assignable.
+     */
     protected $fillable = [
         'name',
         'email',
         'password',
-        'rank',
+        'rank',               // Manager, Deputy Manager, etc.
     ];
 
+    /**
+     * The attributes that should be hidden for serialization.
+     */
     protected $hidden = [
         'password',
         'remember_token',
     ];
 
+    /**
+     * The attributes that should be cast.
+     */
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'rank' => 'string', // enum in migration
+        'rank'              => 'string', // or \App\Enums\UserRank::class if you created the enum
     ];
+
+    // ─────────────────────────────────────────────────────────────────
+    // Relationships
+    // ─────────────────────────────────────────────────────────────────
 
     public function businesses()
     {
-        return $this->belongsToMany(Business::class);
+        return $this->belongsToMany(\App\Models\Business::class);
     }
 
-    public function tasksAsAssigner()
+    public function facilities()
     {
-        return $this->hasMany(Task::class, 'assigner_id');
+        return $this->belongsToMany(\App\Models\Facility::class);
     }
 
-    public function tasksAsAssignee()
+    public function poolTests()
     {
-        return $this->hasMany(Task::class, 'assigned_to_user_id');
+        return $this->hasMany(\App\Models\PoolTest::class);
     }
 
-    // Helper for rank priority
-    public function rankPriority()
+    public function healthChecks()
     {
-        $priorities = [
-            'Manager' => 5,
-            'Deputy Manager' => 4,
-            'Assistant Manager' => 3,
-            'Supervisor' => 2,
-            'Assistant' => 1,
-            null => 0,
-        ];
-        return $priorities[$this->rank] ?? 0;
+        return $this->hasMany(\App\Models\HealthCheck::class);
     }
-}
 
-use Spatie\Permission\Traits\HasRoles;
-use Illuminate\Foundation\Auth\User as Authenticatable;
+    // Tasks
+    public function tasksAssigned()          // tasks this user created
+    {
+        return $this->hasMany(\App\Models\Task::class, 'assigned_by');
+    }
 
-class User extends Authenticatable
-{
-    use HasRoles;
+    public function tasksReceived()          // tasks assigned to this user
+    {
+        return $this->hasMany(\App\Models\Task::class, 'assigned_to_user_id');
+    }
 
-    protected $fillable = ['name', 'email', 'password', 'rank'];
+    // ─────────────────────────────────────────────────────────────────
+    // Helper for rank hierarchy (used in Task assignment gates)
+    // ─────────────────────────────────────────────────────────────────
 
-    protected $casts = [
-        'rank' => \App\Enums\UserRank::class,
-    ];
-
-    public function businesses() { return $this->belongsToMany(Business::class); }
-    public function facilities() { return $this->belongsToMany(Facility::class); }
-    public function poolTests() { return $this->hasMany(PoolTest::class); }
-    public function healthChecks() { return $this->hasMany(HealthCheck::class); }
-    public function tasksAssigned() { return $this->hasMany(Task::class, 'assigned_by'); }
-    public function tasksReceived() { return $this->hasMany(Task::class, 'assigned_to'); }
-}
-
-use Spatie\Permission\Traits\HasRoles;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-
-class User extends Authenticatable
-{
-    use HasRoles;
-
-    protected $fillable = ['name', 'email', 'password', 'rank'];
-
-    protected $casts = [
-        'rank' => \App\Enums\UserRank::class,
-    ];
-
-    public function businesses() { return $this->belongsToMany(Business::class); }
-    public function facilities() { return $this->belongsToMany(Facility::class); }
-    public function poolTests() { return $this->hasMany(PoolTest::class); }
-    public function healthChecks() { return $this->hasMany(HealthCheck::class); }
-    public function tasksAssigned() { return $this->hasMany(Task::class, 'assigned_by'); }
-    public function tasksReceived() { return $this->hasMany(Task::class, 'assigned_to'); }
+    public function rankPriority(): int
+    {
+        return match ($this->rank) {
+            'Manager'          => 5,
+            'Deputy Manager'   => 4,
+            'Assistant Manager'=> 3,
+            'Supervisor'       => 2,
+            'Assistant'        => 1,
+            default            => 0,
+        };
+    }
 }
