@@ -1,58 +1,29 @@
 <?php
 
-// File: routes/web.php (excerpt)
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProfileController;
 
-use App\Http\Controllers\SuperAdminController;
-use App\Http\Controllers\PoolTestController;
+// Public homepage
+Route::get('/', function () {
+ return view('welcome');
+})->name('home');
 
-// etc
+// Breeze authentication routes (login, register, etc.)
+require __DIR__.'/auth.php';
 
-Route::middleware(['auth', 'role:SuperAdmin'])->prefix('superadmin')->group(function () {
-    Route::get('/dashboard', [SuperAdminController::class, 'dashboard']);
-    // Other routes
+// Protected routes
+Route ::middleware(['auth', 'verified'])->group(function () {
+ Route::get('/dashboard', function () {
+ return view('dashboard');
+ })->name('dashboard');
+
+ Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+ Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+ Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+ // === YOUR EXISTING ROUTES BELOW (keep everything you already have) ===
+ // Example: Route::resource('pool-tests', PoolTestController::class)->parameters(['pool-tests' => 'subFacility']);
+ // ... paste the rest of your routes here after this line
 });
 
-Route::resource('pool-tests', PoolTestController::class)->parameters(['pool-tests' => 'subFacility']);
-Route::resource('chemical-stocks', ChemicalStockController::class);
-Route::resource('health-checks', HealthCheckController::class)->parameters(['health-checks' => 'subFacility']);
-Route::resource('tasks', TaskController::class);
-
-// Add more as needed
-
-use App\Http\Controllers\QualificationController;
-use App\Http\Controllers\TrainingSessionController;
-use App\Http\Controllers\TrainingAttendanceController;
-
-// ...
-
-Route::resource('qualifications', QualificationController::class);
-Route::post('qualifications/{qualification}/assign-required', [QualificationController::class, 'assignRequired']);
-
-Route::resource('training-sessions', TrainingSessionController::class);
-Route::get('training/attend/{session}', [TrainingAttendanceController::class, 'attend'])->name('training.attend'); // For QR link
-
-Route::get('training/history/{user}', [TrainingAttendanceController::class, 'individualHistory']);
-Route::get('training/stats/team', [TrainingAttendanceController::class, 'teamStats']);
-
-use App\Http\Controllers\WaterMeterReadingController;
-
-// ...
-
-Route::resource('water-meter-readings', WaterMeterReadingController::class)->parameters(['water-meter-readings' => 'subFacility']);
-Route::patch('water-meter-readings/{subFacility}/update-normal', [WaterMeterReadingController::class, 'updateNormalUsage'])->name('water-meter-readings.update-normal');
-
-use App\Http\Controllers\BackwashLogController;
-
-// ...
-
-Route::resource('backwash-logs', BackwashLogController::class)->parameters(['backwash-logs' => 'subFacility']);
-Route::patch('backwash-logs/{subFacility}/update-interval', [BackwashLogController::class, 'updateInterval'])->name('backwash-logs.update-interval');
-
-use App\Http\Controllers\ExternalHireClubController;
-use App\Http\Controllers\AnnualInspectionItemController;
-
-// ...
-
-Route::resource('external-hire-clubs', ExternalHireClubController::class)->parameters(['external-hire-clubs' => 'facility']);
-Route::resource('annual-inspection-items', AnnualInspectionItemController::class);
-Route::post('annual-inspection-items/{item}/add-record', [AnnualInspectionItemController::class, 'addRecord'])->name('annual-inspection-items.add-record');
+// If you already have a routes/web.php with lots of routes, just make sure the above is at the top!
